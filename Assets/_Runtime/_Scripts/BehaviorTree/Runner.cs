@@ -20,6 +20,13 @@ public class Runner : Tree
                new SeekerInfluenceHigh(),
                    run
             }),
+
+            new Sequence(new List<DecisionNode>
+            {
+               new NoSeekerIsVisible(),
+               new FindClosestFrozen(),
+               new GoToClosestFrozen()
+            }),
             new Sequence(new List<DecisionNode>
             {
                new NoSeekerIsVisible(),

@@ -366,8 +366,6 @@ namespace AI
                             other.GetComponent<AIAgent>().canGroup = true;
                             other.GetComponent<AIAgent>().isFrozen = false;
                             this.GetComponent<Pathfinder>().mostRecentNode.nodeRoom.frozenAgents.Remove(this);
-                            StartCoroutine(grouping(false));
-                            StartCoroutine(other.GetComponent<AIAgent>().grouping(true));
                             animator.SetBool("frozen", false);
                         }
                         else if (!other.GetComponent<Allignement>().neighbors.Contains(this.GetComponent<Collider>()))
@@ -385,7 +383,7 @@ namespace AI
                             other.GetComponent<AIAgent>().isFrozen = false;
                             aliveList.Add(this);
                             this.GetComponent<Pathfinder>().mostRecentNode.nodeRoom.frozenAgents.Remove(this);
-                            StartCoroutine(grouping(false));
+                            
                             other.GetComponent<AIAgent>().AIAgentRescue = null;
                             foreach (AIAgent agent in aliveList)
                             {
@@ -405,7 +403,7 @@ namespace AI
 
 
 
-                            StartCoroutine(other.GetComponent<AIAgent>().grouping(true));
+                           
                         }
                     }
                 }
@@ -414,7 +412,7 @@ namespace AI
         IEnumerator transformation()
         {
             isFrozen = true;
-            yield return new WaitForSeconds(15f);
+            yield return new WaitForSeconds(25f);
             if (isFrozen == true)
             {
                 this.GetComponent<Pathfinder>().mostRecentNode.nodeRoom.frozenAgents.Remove(this);
@@ -425,21 +423,7 @@ namespace AI
 
         }
 
-        IEnumerator grouping(bool leader)
-        {
-            if (leader == true)
-            {
-                isGroupLeader = true;
-            }
-            canGroup = true;
-            yield return new WaitForSeconds(10f);
-            canGroup = false;
-            if (leader == true)
-            {
-                isGroupLeader = false;
-            }
-
-        }
+        
         
         public void findSeekerNextTarget()
         {

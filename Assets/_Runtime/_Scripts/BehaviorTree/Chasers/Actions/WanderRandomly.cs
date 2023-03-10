@@ -46,7 +46,7 @@ public class WanderRandomly : DecisionNode
 
         if (node == null&&GetData("LastSeenNode")==null&&GetData("Runner")==null)
         {
-            Debug.Log(components.Count);
+            //Debug.Log(components.Count);
             int index = Random.Range(0, components.Count);
             Node target = components[index];
             Pathfinder p = referenceTree.GetComponent<Pathfinder>();

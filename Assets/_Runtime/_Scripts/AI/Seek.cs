@@ -22,15 +22,14 @@ namespace AI
                         // Does the ray intersect any objects excluding the player layer
                         LayerMask layerMask = LayerMask.GetMask("Player", "Walls");
 
-                        if (Physics.Raycast(transform.position, desiredVelocity, out hit, 20f, layerMask))
+                        if (Physics.Raycast(transform.position, desiredVelocity, out hit, Mathf.Infinity, layerMask))
                         {
                             if(hit.transform.gameObject.layer == 7)
                             {
-                                if (Vector3.Magnitude(agent.AIAgentTarget.transform.position - this.transform.position) < 7f)
+                                if (Vector3.Magnitude(agent.AIAgentTarget.transform.position - this.transform.position) < 10f)
                                 {
                                     desiredVelocity = desiredVelocity.normalized * agent.maxSpeed/0.90f;
                                     output.linear = desiredVelocity * weight;
-                                    agent.transform.LookAt(hit.transform.position);
                                 }
                                 else
                                 {

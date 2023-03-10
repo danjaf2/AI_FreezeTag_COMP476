@@ -41,7 +41,7 @@ namespace AI
                                     {
                                         if (hit.transform.gameObject.layer == 7)
                                         {
-                                            if (Vector3.Magnitude(agent.AIAgentTarget.transform.position - this.transform.position) < 7f)
+                                            if (Vector3.Magnitude(agent.AIAgentTarget.transform.position - this.transform.position) < 10f)
                                             {
                                                 _direction = desiredVelocityFace;
                                             }
