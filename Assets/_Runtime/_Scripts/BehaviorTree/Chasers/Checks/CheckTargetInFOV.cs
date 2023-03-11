@@ -55,6 +55,7 @@ public class CheckTargetInFOV : DecisionNode
                     //Debug.Log(hit.transform.name);
                     if (hit.transform.GetComponent<AIAgent>() == target)
                         {
+                        if (!hit.transform.GetComponent<AIAgent>().isFrozen) { 
                         if (Vector3.Angle(referenceTree.transform.forward, hit.transform.position - referenceTree.transform.position) <= viewAngle)
                         {
                             root.SetData("Runner", hit.transform.GetComponent<AIAgent>());
@@ -66,7 +67,7 @@ public class CheckTargetInFOV : DecisionNode
                             state = NodeState.SUCCESS;
                             return state;
                         }
-
+                        }
                     }
                 }
             }
@@ -76,7 +77,17 @@ public class CheckTargetInFOV : DecisionNode
         if (GetData("Flank") != null)
         {
            Node n =(Node)GetData("LastSeenNode");
-            if (Vector3.Distance(n.transform.position, referenceTree.transform.position)<=1)
+            if (referenceTree.GetComponent<AIAgent>().AIAgentTarget != null)
+            {
+                if (Vector3.Distance(referenceTree.GetComponent<AIAgent>().AIAgentTarget.transform.position, referenceTree.transform.position) <= 4)
+                {
+                    root.ClearData("Flank");
+                    state = NodeState.FAILURE;
+                    return state;
+                }
+            }
+            
+            if (Vector3.Distance(n.transform.position, referenceTree.transform.position)<=5)
             {
                 root.ClearData("Flank");
                 state = NodeState.FAILURE;
@@ -87,6 +98,8 @@ public class CheckTargetInFOV : DecisionNode
                 state = NodeState.SUCCESS;
                 return state;
             }
+            
+            
             
         }
         

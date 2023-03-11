@@ -26,7 +26,7 @@ namespace AI
                         {
                             if(hit.transform.gameObject.layer == 7)
                             {
-                                if (Vector3.Magnitude(agent.AIAgentTarget.transform.position - this.transform.position) < 10f)
+                                if (Vector3.Magnitude(agent.AIAgentTarget.transform.position - this.transform.position) < 10f&&!agent.AIAgentTarget.isFrozen)
                                 {
                                     desiredVelocity = desiredVelocity.normalized * agent.maxSpeed/0.90f;
                                     output.linear = desiredVelocity * weight;

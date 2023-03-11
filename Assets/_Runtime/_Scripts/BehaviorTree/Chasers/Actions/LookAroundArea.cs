@@ -18,11 +18,13 @@ public class LookAroundArea : DecisionNode
         Node lastSeen = (Node)GetData("LastSeenNode");
         if (!lookingAround &&GetData("LastSeenNode")==null)
         {
+            root.ClearData("Flank");
             state = NodeState.FAILURE;
             return state;
         }
         if (!lookingAround)
         {
+            root.ClearData("Flank");
             referenceTree.StartCoroutine(Rotate(4f, lastSeen));
             state = NodeState.RUNNING;
             return state;

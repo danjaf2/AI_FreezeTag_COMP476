@@ -7,7 +7,7 @@ using UnityEngine;
 public class ChaseRunner : DecisionNode
 {
     // Start is called before the first frame update
-    float rangeOfCommunication = 20f;
+    float rangeOfCommunication = 10f;
     public ChaseRunner()
     {
         //Constructor for setting up base values in Example Character Tree
