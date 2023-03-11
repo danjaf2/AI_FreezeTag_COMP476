@@ -2,6 +2,7 @@ using AI;
 using BehaviorTree;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class OnLastKnownLocation : DecisionNode
@@ -24,15 +25,19 @@ public class OnLastKnownLocation : DecisionNode
     {
         Pathfinder p = referenceTree.GetComponent<Pathfinder>();
         Node lastSeen = (Node)GetData("LastSeenNode");
-        if (lastSeen != null)
+        Debug.Log("here");
+        if(lastSeen == null)
         {
-            if(p.mostRecentNode == lastSeen)
+            Debug.Log("IsNull");
+        }     
+        else
+        {
+            if (p.mostRecentNode == lastSeen)
             {
                 state = NodeState.SUCCESS;
                 return state;
             }
         }
-
         state = NodeState.FAILURE; 
         return state;
     }

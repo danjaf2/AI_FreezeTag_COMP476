@@ -45,7 +45,7 @@ public class GoToClosestCoin : DecisionNode
             
             if ((bool)GetData("Spotted") == false)
                 {
-                Debug.Log("");
+                //Debug.Log("");
                 
                     p.target = target;
                     p.start = p.mostRecentNode;

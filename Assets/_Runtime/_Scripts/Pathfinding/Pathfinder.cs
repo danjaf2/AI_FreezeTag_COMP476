@@ -158,7 +158,6 @@ public class Pathfinder : MonoBehaviour
             Path sol = open.Dequeue().data;
             while (closed.Contains(sol.currentNode))
             {
-
                 sol = open.Dequeue().data;
             }
             Node visiting = sol.currentNode;
@@ -388,8 +387,165 @@ public class Pathfinder : MonoBehaviour
 
         return true;
     }
-        
-    
+
+
+    public bool findPathGlobalFlank(Path otherSolution)
+    {
+        if(otherSolution == null)
+        {
+            return false;
+        }
+        if (agent.trackedTarget == null)
+        {
+            startRoom = mostRecentNode.nodeRoom;
+            start = mostRecentNode;
+        }
+        else
+        {
+            startRoom = agent.trackedTarget.nodeRoom;
+            start = agent.trackedTarget;
+        }
+
+
+        if (start == target)
+        {
+            if (start == target || target == null || start == null)
+            {
+                return false;
+            }
+            if (agent.isSeeker)
+            {
+                if (agent.chasingCoin)
+                {
+                    //target = agent.AIAgentTarget.GetComponent<Pathfinder>().mostRecentNode;
+                }
+            }
+        }
+        List<Node> p = new List<Node>();
+        open = new PriorityQueue<float, Path>();
+        found = false;
+        closed.Clear();
+        for(int i = 0; i<otherSolution.prevNode.Count-1;i++)
+        {
+            closed.Add(otherSolution.prevNode[i]);
+        }
+        p.Add(start);
+        Path s = new Path(start, p);
+        open.Enqueue(0, s);
+        while (!found)
+        {
+            Path sol = open.Dequeue().data;
+            while (closed.Contains(sol.currentNode))
+            {
+                if(open.Count> 0)
+                {
+                sol = open.Dequeue().data;
+                }
+                else
+                {
+                    solution = sol;
+                    found = false;
+                    Debug.Log("no solution");
+                    findPathGlobal();
+                    return false;
+                }
+            }
+            Node visiting = sol.currentNode;
+
+            if (target != null)
+            {
+                if (sol.currentNode.gameObject == target.gameObject)
+                {
+                    solution = sol;
+                    found = true;
+                    //Debug.Log("solution found");
+                    break;
+                }
+            }
+
+            for (int i = 0; i < visiting.connectedNodes.Count; i++)
+            {
+
+
+                float hValue = HeuristicEuclideDistance(visiting.connectedNodes[i], target);
+                sol.cost = sol.cost + visiting.costs[i];
+                float priority = hValue + (sol.cost) * sol.prevNode.Count;
+
+                if (closed.Contains(visiting.connectedNodes[i]))
+                {
+                    int index = closed.FindIndex(a => a == visiting.connectedNodes[i]);
+                    //print(index);
+
+                    continue;
+
+                }
+
+                List<Node> l = new List<Node>(sol.prevNode);
+                l.Add(visiting.connectedNodes[i]);
+                Path newPath = new Path(visiting.connectedNodes[i], l);
+                open.Enqueue(priority, newPath);
+                if (!closed.Contains(visiting))
+                {
+                    closed.Add(visiting);
+                }
+            }
+            if (open.Count == 0)
+            {
+                solution = sol;
+                found = false;
+                Debug.Log("no solution");
+                findPathGlobal();
+                return false;
+            }
+        }
+        if (found)
+        {
+            currentIndex = 0;
+
+            currentIndex = 0;
+
+            if (agent.trackedTarget == null)
+            {
+                agent.trackedTarget = mostRecentNode;
+                agent.TargetPosition = mostRecentNode.transform.position;
+            }
+            else
+            {
+                agent.TargetPosition = agent.trackedTarget.transform.position;
+                agent.trackedTarget = agent.trackedTarget;
+            }
+
+
+
+            LayerMask layerMask = LayerMask.GetMask("UI", "Walls");
+            RaycastHit hit;
+            //print(solution.prevNode[0].gameObject.name);
+            if (solution.prevNode.Count > 1)
+            {
+
+                if (Physics.Raycast(transform.position, solution.prevNode[1].transform.position - this.transform.position, out hit, Mathf.Infinity, layerMask))
+                {
+
+                    if (hit.transform.gameObject.layer == 5)
+                    {
+                        if (hit.transform.gameObject == solution.prevNode[1].gameObject)
+                        {
+                            //print(hit.transform.gameObject.name);
+                            agent.TargetPosition = solution.prevNode[1].transform.position;
+                            agent.trackedTarget = solution.prevNode[1];
+                            solution.prevNode.Remove(solution.prevNode[0]);
+                        }
+                    }
+                }
+                goalRoom = solution.prevNode[solution.prevNode.Count - 1].nodeRoom;
+            }
+
+
+        }
+
+        return true;
+    }
+
 
     public Node findNextRoom()
     {

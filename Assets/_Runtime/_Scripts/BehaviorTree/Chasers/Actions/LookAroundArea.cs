@@ -28,7 +28,7 @@ public class LookAroundArea : DecisionNode
             return state;
         }
 
-
+        root.ClearData("Flank");
         state = NodeState.SUCCESS;
         return state;
     }
@@ -49,12 +49,14 @@ public class LookAroundArea : DecisionNode
         if ((Node)GetData("LastSeenNode")==lastSeen)
         {
             root.ClearData("LastSeenNode");
+            root.ClearData("Flank");
             root.ClearData("Wander");
             lookingAround = false;
         }
         else
         {
             root.ClearData("Wander");
+            root.ClearData("Flank");
             lookingAround = false;
         }
        

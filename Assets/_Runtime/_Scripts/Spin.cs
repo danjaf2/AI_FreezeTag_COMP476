@@ -56,13 +56,13 @@ public class Spin : MonoBehaviour
             spawner.spawned = false;
             coinCountSeeker++;
             SeekerCoin.GetComponent<TMP_Text>().text = "Seekers: " + coinCountSeeker.ToString();
-            spawner.coinText.text = "No coin has spawned";
+            //spawner.coinText.text = "No coin has spawned";
             foreach (AIAgent seeker in AIAgent.seekerList)
             {
-                seeker.chasingCoin = false;
+                //seeker.chasingCoin = false;
                 //seeker.findSeekerNextTarget();
-                seeker.wings.SetActive(true);
-                seeker.wings2.SetActive(true);
+                //seeker.wings.SetActive(true);
+                //seeker.wings2.SetActive(true);
             }
             Destroy(this.gameObject);
         }

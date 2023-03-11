@@ -1,6 +1,8 @@
+using AI;
 using BehaviorTree;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class WanderRandomly : DecisionNode
@@ -30,7 +32,27 @@ public class WanderRandomly : DecisionNode
     public override NodeState Evaluate()
     {
         Node node = (Node)GetData("Wander");
+        Node coin = (Node)GetData("CoinLastSeen");
         
+        if (coin != null)
+        {
+            if (Vector3.Distance(coin.transform.position, referenceTree.transform.position) <= 1)
+            {
+                root.ClearData("CoinLastSeen");
+                root.ClearData("Wander");
+                Debug.Log("Cleared Coin");
+                state = NodeState.FAILURE;
+                return state;
+            }
+            if (GetData("LastSeenNode") == null && GetData("Runner") == null)
+            {
+                //Debug.Log(components.Count);
+                Pathfinder p = referenceTree.GetComponent<Pathfinder>();
+                p.target = coin;
+                p.findPathGlobal();
+
+            }
+        }
 
         if (GetData("Wander") != null)
         {
