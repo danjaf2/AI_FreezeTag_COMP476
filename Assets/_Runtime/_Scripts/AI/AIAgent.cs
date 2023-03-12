@@ -22,6 +22,9 @@ namespace AI
         public GameObject wings;
         public GameObject wings2;
 
+        public GameObject freezeBomb;
+        public int ammoBomb=2;
+
         public static GameObject seekersWin = null;
 
         public bool isSeeker = false;
@@ -127,6 +130,10 @@ namespace AI
 
                 Vector3 movement = Camera.main.transform.TransformDirection(new Vector3(horizontal, 0, vertical));
                 movement.y = 0;
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    FreezeBomb();
+                }
 
                 if (movement.magnitude != 0)
                 {
@@ -296,7 +303,7 @@ namespace AI
             if (other.gameObject.layer == 7 || other.gameObject.layer == 11)
             {
 
-                if (other.gameObject.GetComponent<AIAgent>().isSeeker)
+                if (other.gameObject.GetComponent<AIAgent>().isSeeker&& !other.gameObject.GetComponent<AIAgent>().isFrozen)
                 {
                     if(isPlayer)
                     {
@@ -462,6 +469,38 @@ namespace AI
             Time.timeScale = 0f;
             Spin.ResetValues();
             print("Seekers win");
+        }
+
+        public void FreezeBomb()
+        {
+            if (!isFrozen)
+            {
+                if (ammoBomb > 0)
+                {
+                    Debug.Log("FreezeEM!");
+                    GameObject obj = Instantiate(freezeBomb, transform.position, Quaternion.identity);
+                    Destroy(obj, 1.5f);
+                    LayerMask layerMask = LayerMask.GetMask("Enemy");
+                    Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, 5f, layerMask);
+                    foreach (var hitCollider in hitColliders)
+                    {
+                        if (!hitCollider.GetComponent<AIAgent>().isFrozen)
+                        {
+                            hitCollider.GetComponent<AIAgent>().StartCoroutine(hitCollider.GetComponent<AIAgent>().Freeze());
+                        }
+                    }
+                    ammoBomb--;
+                }
+            }
+            
+        }
+
+        IEnumerator Freeze()
+        {
+            isFrozen = true;
+            yield return new WaitForSeconds(5f);
+            isFrozen= false;
+
         }
 
 

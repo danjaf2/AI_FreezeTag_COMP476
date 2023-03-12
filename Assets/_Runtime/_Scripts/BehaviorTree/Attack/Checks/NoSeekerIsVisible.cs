@@ -38,7 +38,7 @@ public class NoSeekerIsVisible : DecisionNode
         if (referenceTree.GetComponent<Pathfinder>().mostRecentNode.nodeRoom.dangerLevel >= 10)
         {
             Debug.Log("I DONT LIKE IT again");
-            //root.ClearData("Coin");
+            root.ClearData("Coin");
             state = NodeState.FAILURE;
             return state;
         }
@@ -58,7 +58,7 @@ public class NoSeekerIsVisible : DecisionNode
                     if (hit.transform.GetComponent<AIAgent>().isSeeker)
                     {
                         Debug.Log("HE SEES ME again");
-                        //root.ClearData("Coin");
+                        root.ClearData("Coin");
                         state = NodeState.FAILURE;
                         return state;
                     }

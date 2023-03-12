@@ -39,6 +39,8 @@ public class ChaseRunner : DecisionNode
                 {
                     //if(agent.GetComponent<Chaser>()._root.GetData("LastSeenNode")==null&& agent.GetComponent<Chaser>()._root.GetData("CoinLastSeen") == null)
                     {
+                        if (!agent.isPlayer)
+                        {
                         if (agent.GetComponent<Chaser>()._root.GetData("Flank") == null)
                         {
                             agent.GetComponent<Pathfinder>().target = target;
@@ -46,6 +48,8 @@ public class ChaseRunner : DecisionNode
                             agent.GetComponent<Chaser>()._root.SetData("Flank", referenceTree.GetComponent<Pathfinder>().solution);
                             agent.GetComponent<Chaser>()._root.SetData("LastSeenNode", referenceTree.GetComponent<Pathfinder>().target);
                             agent.GetComponent<Chaser>()._root.ClearData("Wander");
+                        }
+
                         }
                     }
                 }

@@ -23,12 +23,14 @@ namespace AI
                 {
                 desiredVelocity = this.transform.position - seeker.transform.position;
                 //print(angle);
-                if (Vector3.Magnitude(seeker.transform.position - this.transform.position) < 3f)
+                if (Vector3.Magnitude(seeker.transform.position - this.transform.position) < 3f&&!seeker.isFrozen)
                 {
+                        
                     finalVelocity = desiredVelocity.normalized * agent.maxSpeed;
                     output.linear += desiredVelocity * weight;
                         count++;
-                }
+                        
+                    }
                 else
                 {
                     output.linear += Vector3.zero;

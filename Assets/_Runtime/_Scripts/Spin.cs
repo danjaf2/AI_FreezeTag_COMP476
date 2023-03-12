@@ -68,12 +68,10 @@ public class Spin : MonoBehaviour
         }
         if (other.gameObject.layer == 7)
         {
-           
-            
                 ScoreKeeper.GetComponent<MainMenu>().score += 10;
                 spawner.spawned = false;
                 coinCountRunner++;
-                //RunnerCoin.GetComponent<TMP_Text>().text = "Runners: " + coinCountRunner.ToString();
+                RunnerCoin.GetComponent<TMP_Text>().text = "Runners: " + coinCountRunner.ToString();
                 //spawner.coinText.text = "No coin has spawned";
                 foreach (AIAgent seeker in AIAgent.seekerList)
                 {

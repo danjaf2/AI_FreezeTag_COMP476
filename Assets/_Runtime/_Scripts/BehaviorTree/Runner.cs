@@ -9,7 +9,7 @@ public class Runner : Tree
         DecisionNode run = new GoToSaferRoom();
         DecisionNode root = new Selector(new List<DecisionNode>
         {
-            
+            new SeekerInRange(),
              new Sequence(new List<DecisionNode>
                {
                  new SeekerIsVisible(),

@@ -18,7 +18,7 @@ public class SeekerInfluenceHigh : DecisionNode
 
     public override NodeState Evaluate()
     {
-        if (referenceTree.GetComponent<Pathfinder>().mostRecentNode.nodeRoom.dangerLevel >= 10)
+        if (referenceTree.GetComponent<Pathfinder>().mostRecentNode.nodeRoom.dangerLevel >=10)
         {
             Debug.Log("I DONT LIKE IT");
             if ((bool)GetData("Spotted") == false)
