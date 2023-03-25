@@ -28,8 +28,8 @@ public class GraphGen : MonoBehaviour
                             if (hitNode.gameObject == target.gameObject)
                             {
                                 node.connectedNodes.Add(target);
-                                node.costs.Add(Vector3.Magnitude(target.transform.position - node.transform.position));
-                                //node.costs.Add(1);
+                                //node.costs.Add(Vector3.Magnitude(target.transform.position - node.transform.position));
+                                node.costs.Add(1);
                             }
                             
                         }
